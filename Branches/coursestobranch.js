@@ -14,9 +14,9 @@ $(function(){
 				success: function (data) {
 					var length=data.data.length;
 					$.each( data.data, function( index ){
-						var operation=$(this)[3].substring($(this)[3].indexOf('title=')+7,$(this)[3].indexOf('" data-url'));
+						var operation=$(this[3]).attr('title');
 						if(operation==action){
-							var dataurl=$(this)[3].substring($(this)[3].indexOf('data-url=')+10,$(this)[3].indexOf('"></i>'));
+							var dataurl=$(this[3]).data().url;
 							$.ajax({
 								dataType: "json",
 								url:dataurl
@@ -27,6 +27,9 @@ $(function(){
 									location.reload();
 								}
 							});
+						}
+						if($.active==0){
+							location.reload();
 						}
 					});
 				}
