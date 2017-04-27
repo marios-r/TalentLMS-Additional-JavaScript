@@ -5,11 +5,7 @@ $(function(){
 		$('.tl-grid-filtering-wrapper > .dropdown-menu').append('<li><a class="tl-cursor-pointer additionalfilter" data-mode="trainer">Instructors</a></li>');
 		$('.tl-grid-filtering-wrapper > .dropdown-menu').append('<li><a class="tl-cursor-pointer additionalfilter" data-mode="learner">Learners</a></li>');
 		$('.tl-grid-filtering-wrapper > .dropdown-menu').append('<li><a class="tl-cursor-pointer additionalfilter" data-mode="learner with instructor privileges" >Learners with instructor privileges</a></li>');
-		$courseurl=$('.nav.nav-tabs>li:first-child>a').attr('href');
-		var courseid=$courseurl.substring($courseurl.lastIndexOf('/id:')+4,$courseurl.length);
-		var newdata=[];
-		var url='course/listuser/id:'+courseid;
-		$.getJSON(url,function(data){newdata=data.data});
+		$('.tl-grid-filtering-wrapper > .dropdown-menu').append('<li><a class="tl-cursor-pointer additionalfilter" data-mode="-" >Users that are not enrolled in the course</a></li>');
 		$(document).on('click', '.additionalfilter',function(){
 			var searchRole = $(this).data('mode');
 			$courseurl=$('.nav.nav-tabs>li:first-child>a').attr('href');
@@ -23,13 +19,15 @@ $(function(){
 						if(role=='learner'){
 							role='learner with instructor privileges';
 						}
-					}else{
+					}else if($(this[5]).find('a').text()=='Learner'){
 						role='learner';
+					}else{
+						role='-';
 					}
 					console.log(role);
-					if(searchRole=='learner'&&(role=='learner'||role=='learner with instuctor privileges'))
+					if((searchRole=='learner')&&(role=='learner with instructor privileges')){
 						newdata.push($(this));
-					else if(searchRole==role){
+					}else if(searchRole==role){
 						newdata.push($(this));
 					}
 				});
@@ -44,7 +42,7 @@ $(function(){
 					columns:[{"title": "User","className":"tl-align-left","orderable":true,"searchable":false},{"title": "","className":"tl-align-left hidden-phone","width":"40%","orderable":true,"visible":false},{"title": "","className":"tl-align-left hidden-phone","orderable":true,"visible":false},{"title": "","className":"tl-align-left hidden-phone","orderable":true,"visible":false},{"title": "","className":"tl-align-left hidden-phone","orderable":true,"visible":false},{"title": "Role","className":"tl-align-center hidden-phone","width":"20%","orderable":true,"orderSequence":["desc", "asc"],"searchable":false},{"title": "Completion date","className":"tl-align-center hidden-phone","width":"25%","orderable":true,"orderSequence":["desc", "asc"],"searchable":false},{"title": "Operations","className":"tl-align-center","width":"15%","orderable":true,"orderSequence":["desc", "asc"],"searchable":false}],
 					"initComplete": tl_initUsersGrid
 				});
-				$('<span class="pull-right label label-info tl-filteredby tl-cursor-pointer" style="margin-top: 12px; margin-bottom:12px; margin-right:12px;" onclick="location.reload();"><i class="icon-filter"></i>&nbsp;&nbsp;Filtered by User-Type "'+searchRole.charAt(0).toUpperCase() + searchRole.slice(1)+'"<i class="icon-remove"></i></span>').insertBefore('#tl-course-users_wrapper');
+				$('<span class="pull-right label label-info tl-filteredby tl-cursor-pointer" style="margin-top: 12px; margin-bottom:12px; margin-right:12px;" onclick="location.reload();"><i class="icon-filter"></i>&nbsp;&nbsp;Filtered by "'+searchRole.charAt(0).toUpperCase() + searchRole.slice(1)+'"<i class="icon-remove"></i></span>').insertBefore('#tl-course-users_wrapper');
 			});
 		});
 	}
