@@ -4,4 +4,6 @@ Just decided to upload some custom JavaScript that may help or not some TalentLM
 
 I can't guarantee that the scripts will work allways and everywhere but I would appreciate it if you notify me.
 
+*Note that the scipts are currently language-dependent. Currently intended to work for portals with English language*
+
 Enjoy!
