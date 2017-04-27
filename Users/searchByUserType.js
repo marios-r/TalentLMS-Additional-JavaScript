@@ -15,7 +15,7 @@ $(function(){
 			$.getJSON('user/list', function (data) {
 				$.each( data.data, function( key, val ){
 					var type=$(this)[2].substring(13,$(this)[2].indexOf("'>"))
-					if(type.toLowerCase().indexOf(searchType.toString().toLowerCase())>-1){
+					if(type==searchType){
 						newdata.push($(this));
 					}
 				});
