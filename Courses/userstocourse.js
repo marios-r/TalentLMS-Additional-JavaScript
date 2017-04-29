@@ -1,22 +1,40 @@
 $(function(){
 	if($('#tl-course-users_wrapper').length==1){
-		//	add the dropdown in the navigation bar over the course-users table
-		$('.nav.nav-tabs').append('<li class="dropdown pull-right hidden-phone"><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="margin: 0px;">Mass actions&nbsp;<b class="caret"></b></a><ul class="dropdown-menu"><li><a class="massaction" data-toggle="tab" href="#" data-mode="add">Enroll all users in course</a></li><li><a class="massaction" data-toggle="tab" href="#" data-mode="remove">Unenroll all users from course</a></li></ul></li>');		
+		var selectedTab=$( ".nav-tabs>li" ).index( $('.nav-tabs>li.active') );
+		var column, add, remove, endpoint, messageadd, messageremove, messageaddredundant, messageremoveredundant;
+		column = 7;
+		add="Enroll all users in course";
+		remove="Unenroll all users from course";
+		endpoint="course/listuser/";
+		messageadd="Enrolled #1 user#2 to the course.";
+		messageremove="Unenrolled #1 user#2 from the course.";
+		messageaddredundant="All users are already endolled in the course.";
+		messageremoveredundant="There are no users enrolled in the course.";
+		//	add the dropdown in the navigation bar over the datatable
+		$('.nav.nav-tabs').append('<li class="dropdown pull-right hidden-phone"><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="margin: 0px;">Mass actions&nbsp;<b class="caret"></b></a><ul class="dropdown-menu"><li><a class="massaction" data-toggle="tab" href="#" data-mode="add">'+add+'</a></li><li><a class="massaction" data-toggle="tab" href="#" data-mode="remove">'+remove+'</a></li></ul></li>');		
 		//	add onclick listener
 		$(document).on('click', '.massaction',function(){
-			var action=$(this).data('mode'); //the selected action
+			if($('#tl-mass-action-message').length==1){ //if a completion alert is showing
+				$('#tl-mass-action-message').remove();
+			}
+			var action=$(this).data('mode');
+			var message; //message for the completion alert
+			if(action=='remove')
+				message=messageremove;
+			else
+				message=messageadd;
 			$('#tl-loading-pane').show();
-			$courseurl=$('.nav.nav-tabs>li:first-child>a').attr('href');
-			var courseid=$courseurl.substring($courseurl.lastIndexOf('/id:')+4,$courseurl.length);
-			var url="course/listuser/id:"+courseid;
+			$infourl=$('.nav.nav-tabs>li:first-child>a').attr('href');
+			var id=$infourl.substring($infourl.lastIndexOf('/id:')+4,$infourl.length);
+			url=endpoint+"id:"+id;
 			$.ajax({
 				dataType: "json",
 				url: url,
 				success: function (data) {
 					var deferreds = [];
 					$.each( data.data, function( index ){
-						if((action=='remove'&&$(this[7]).hasClass('icon-minus'))||(action=='add'&&$(this[7]).hasClass('icon-plus'))){ 
-							var dataurl=$(this[7]).data().url;
+						if((action=='remove'&&$(this[column]).hasClass('icon-minus'))||(action=='add'&&$(this[column]).hasClass('icon-plus'))){ 
+							var dataurl=$(this[column]).data().url;
 							deferreds.push(
 								$.ajax({
 									dataType: "json",
@@ -25,13 +43,32 @@ $(function(){
 							);
 						}
 					});
+					//  add completion alert
+					$('.container>.row>.span12').prepend('<div class="alert fade hide in out" id="tl-mass-action-message"><a class="close" data-dismiss="alert" href="#">×</a><div class="padded">astgqaweraeragsrgasga</div></div>');
 					if(deferreds.length==0){
-						console.log("No users will be affected by this action");
+						if(action=='remove')
+							message=messageremoveredundant;
+						else
+							message=messageaddredundant;
+						$('#tl-mass-action-message').addClass('alert-info');
+						$('#tl-mass-action-message>.padded').html(message);
+						$('#tl-mass-action-message').show();
 						$('#tl-loading-pane').hide();
 					}else{
-						console.log(deferreds.length+" users will be affected by this action");
 						$( document ).ajaxStop(function() {
-							location.reload();
+							if(deferreds.length==1)
+								message=message.replace('#1',"1").replace('#2','');
+							else
+								message=message.replace('#1',deferreds.length.toString()).replace('#2','s');
+							$( document ).unbind('ajaxStop');
+							var table=$('.dataTable').DataTable();
+							table.ajax.reload();
+							$('a.massaction').parent().removeClass('active');
+							$('#tl-mass-action-message').addClass('alert-success');
+							$('#tl-mass-action-message>.padded').html(message);
+							$('#tl-mass-action-message').show();
+							$('.nav-tabs>li.active').removeClass('active');
+							$( ".nav-tabs>li" )[selectedTab].className+='active';
 						});
 						$.when.apply(null, deferreds);
 					}

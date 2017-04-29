@@ -115,13 +115,9 @@ $(function(){
 						$('#tl-mass-action-message').addClass('alert-info');
 						$('#tl-mass-action-message>.padded').html(message);
 						$('#tl-mass-action-message').show();
-						console.log("No records will be affected by this action");
 						$('#tl-loading-pane').hide();
 					}else{
-						console.log(deferreds.length+" records will be affected by this action");
 						$( document ).ajaxStop(function() {
-							console.log(message);
-							console.log(deferreds.length);
 							if(deferreds.length==1)
 								message=message.replace('#1',"1").replace('#2','');
 							else if(message.indexOf('branch#2')>=0)
@@ -131,6 +127,7 @@ $(function(){
 							$( document ).unbind('ajaxStop');
 							var table=$('.dataTable').DataTable();
 							table.ajax.reload();
+							$('a.massaction').parent().removeClass('active');
 							$('#tl-mass-action-message').addClass('alert-success');
 							$('#tl-mass-action-message>.padded').html(message);
 							$('#tl-mass-action-message').show();
