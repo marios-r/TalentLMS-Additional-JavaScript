@@ -20,7 +20,7 @@ Mass action scripts are adding a dropdown over the respective datatables where y
 ### Additional Filters
 ___
 Adds some additional options in the filter dropdown under datatables. In essence when selecting one of the additional filters, the current datatable is being destroyed and a new client-side datatable is being created with the filtered data.
-* searchByUserType.js: Filter users by User-Type in the main users list.  
+* searchByUserType.js: Filter users by User-Type in the main users list. This works only on the list-view. **Not** on the grid-view. 
 
 ___
 *Enjoy fellow admins!*
