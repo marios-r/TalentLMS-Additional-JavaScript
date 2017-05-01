@@ -1,4 +1,6 @@
-may make your life easier for 5 minutes :p
+# TalentLMS Additional JavaScript
+
+Just decided to upload some custom JavaScript that may help or not some TalentLMS users. Nothing fancy but may make your life easier for 5 minutes :p
 
 I can't guarantee that the scripts will work allways and everywhere but I would appreciate it if you notify me.
 
@@ -17,7 +19,7 @@ Mass action scripts are adding a dropdown over the respective datatables where y
 
 ### Additional Filters
 ___
-Adds some additional options in the filter dropdown under datatables. In essence when selecting one of the additional filters, the current datatable is being destroyes and a new client-side datatable is being created with the filtered data.
+Adds some additional options in the filter dropdown under datatables. In essence when selecting one of the additional filters, the current datatable is being destroyed and a new client-side datatable is being created with the filtered data.
 * searchByUserType.js: Filter users by User-Type in the main users list.  
 
 ___
