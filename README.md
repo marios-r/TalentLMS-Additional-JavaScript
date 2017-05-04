@@ -4,7 +4,7 @@ Just decided to upload some custom JavaScript that may help or not some TalentLM
 
 I can't guarantee that the scripts will work allways and everywhere but I would appreciate it if you notify me.
 ___
-### Additional Mass Actions 
+### Additional Mass Actions ![Mass Actions](icons/massaction.png)
 
 Mass action scripts are adding a dropdown over the respective datatables where you can select the actions described bellow.
 * coursestobranch.js: You can add all courses to a branch or remove all courses from a branch. 
@@ -17,12 +17,13 @@ Mass action scripts are adding a dropdown over the respective datatables where y
 
 **You can combine all of the above using massactionscombined.js instead of adding the scripts separately**
 ___
-### Additional Filters
+### Additional Filters ![Filters](icons/filter.png)
 
 Adds some additional options in the filter dropdown under datatables. In essence when selecting one of the additional filters, the current datatable is being destroyed and a new client-side datatable is being created with the filtered data.
 * usertypefilter.js: Filter users by User-Type in the main users list. This works only on the list-view. **Not** on the grid-view. 
 * courseusersrolebasedfilter.js: Filter users based on their role in the course (learners, instructors, not enrolled) and also adds a filter for learners that has instructor privileges (learners with instructor privileges).
-Both of these have a problem on CSV export. Some dates are not formatted correctly. 
+
+*Bug: Both of these have a problem on CSV export. Some dates are not formatted correctly.*
 
 **You can combine all of the above using filterscombined.js instead of adding the scripts separately**
 
