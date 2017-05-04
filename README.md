@@ -21,8 +21,6 @@ Adds some additional options in the filter dropdown under datatables. In essence
 * usertypefilter.js: Filter users by User-Type in the main users list. This works only on the list-view. **Not** on the grid-view. 
 * courseusersrolebasedfilter.js: Filter users based on their role in the course (learners, instructors, not enrolled) and also adds a filter for learners that has instructor privileges (learners with instructor privileges).
 
-*Bug: Both of these have a problem on CSV export. Some dates are not formatted correctly.*
-
 **You can combine all of the above using filterscombined.js instead of adding the scripts separately**
 
 ___
